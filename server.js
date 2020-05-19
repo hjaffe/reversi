@@ -200,7 +200,7 @@ io.sockets.on('connection', function (socket) {
 			                 result: 'success',
 			                 room: room,
 			                 username: username,
-			                 messsage: message
+			                 message: message
 		                   };
 		io.sockets.in(room).emit('send_message_response',success_data);
 		log('Message sent to room '+ room + ' by '+username);
