@@ -46,6 +46,7 @@ socket.on('join_room_response',function(payload){
 
 	/* If someone joined, then add a new row to the lobby table */
 	var dom_elements = $('.socket_'+payload.socket_id);
+
 	/* If we don't already have an entry for this person */
 	if(dom_elements.length == 0){
 		var nodeA = $('<div></div>');
@@ -99,23 +100,23 @@ socket.on('player_disconnected',function(payload){
 
 	/* If we are being notified that we left the room, then ignore it */
 	if(payload.socket_id == socket.id){
-		return;
-	}
+        return;
+    }
 
 	/* If someone left the room, then animate out all their content */
 	var dom_elements = $('.socket_'+payload.socket_id);
 
 	/* If something exists */
-	if(dom_elements.length == 0){
-		dom_elements.slideUp(1000);
-	}
+	if(dom_elements.length != 0){
+        dom_elements.slideUp(1000);
+    }
 
 	/* Manage the message that a player has left */
-	var newHTML = '<p>'+payload.username+' has left the lobby</p>';
-	var newNode = $(newHTML);
-	newNode.hide();
-	$('#messages').append(newNode);
-	newNode.slideDown(1000);
+	var newHTML = '<p>'+payload.username+' just left lobby. </p>';
+    var newNode = $(newHTML);
+    newNode.hide();
+    $('#messages').append(newNode);
+    newNode.slideDown(1000);
 });
 
 
@@ -147,6 +148,7 @@ $(function(){
 	var payload = {};
 	payload.room = chat_room;
 	payload.username = username;
+
 	console.log('*** Client Log Message: \'join_room\' payload: '+JSON.stringify(payload));
 	socket.emit('join_room',payload);
 });
